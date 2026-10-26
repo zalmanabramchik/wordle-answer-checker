@@ -31,6 +31,7 @@
   .recent .d { color:var(--dim); }
   footer { color:var(--dim); font-size:13px; line-height:1.55; text-align:center; margin-top:8px; }
   .err { color:#e08a8a; font-size:14px; margin-top:10px; display:none; }
+  .signbtn { display:inline-block; margin-top:14px; background:var(--green); color:#fff; padding:11px 18px; border-radius:8px; font-size:15px; font-weight:600; text-decoration:none; }
 </style>
 </head>
 <body>
@@ -62,6 +63,14 @@
   <section class="card">
     <h2>Most recent answers in the archive</h2>
     <ul class="recent" id="recent"></ul>
+  </section>
+
+  <section class="card">
+    <h2>The guestbook wall</h2>
+    <p style="color:var(--dim); font-size:14px; margin:0 0 12px;">Stopped by? Sign the wall.</p>
+    <ul class="recent" id="guestbook"></ul>
+    <p id="gbEmpty" style="color:var(--dim); font-size:14px; display:none;">No signatures yet. Be the first.</p>
+    <a class="signbtn" href="https://docs.google.com/forms/d/e/1FAIpQLSe546esWDioDEIMKDxnD6F1ya_PYl71MLVX9mKjsj-kq9AMOw/viewform" target="_blank" rel="noopener">✍️ Sign the guestbook</a>
   </section>
 
   <footer>
@@ -188,5 +197,44 @@
 </script>
 <script data-goatcounter="https://zalman-wordle.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+<script>
+// Guestbook wall: reads signatures from the guestbook spreadsheet and lists the newest first.
+(function () {
+  var url = 'https://docs.google.com/spreadsheets/d/1ChQni3LTc3yJuNEKWKwAZXXAAhboehFrgRquORzz_p4/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent('Form Responses 1');
+  fetch(url).then(function (r) { return r.text(); }).then(function (t) {
+    var json = JSON.parse(t.substring(t.indexOf('{'), t.lastIndexOf('}') + 1));
+    var rows = (json.table && json.table.rows) || [];
+    var out = [];
+    rows.forEach(function (row) {
+      if (!row.c) return;
+      var ts = row.c[0], nm = row.c[1], nt = row.c[2];
+      var name = nm && nm.v ? String(nm.v) : '';
+      if (!name || name === 'Your name') return;
+      out.push({ name: name, note: nt && nt.v ? String(nt.v) : '', when: ts && ts.f ? String(ts.f).split(' ')[0] : '' });
+    });
+    out.reverse();
+    var ul = document.getElementById('guestbook');
+    out.slice(0, 30).forEach(function (e) {
+      var li = document.createElement('li');
+      var left = document.createElement('span');
+      var b = document.createElement('b');
+      b.textContent = e.name;
+      left.appendChild(b);
+      if (e.note) left.appendChild(document.createTextNode(' · ' + e.note));
+      li.appendChild(left);
+      if (e.when) {
+        var d = document.createElement('span');
+        d.className = 'd';
+        d.textContent = e.when;
+        li.appendChild(d);
+      }
+      ul.appendChild(li);
+    });
+    if (!out.length) document.getElementById('gbEmpty').style.display = 'block';
+  }).catch(function () {
+    document.getElementById('gbEmpty').style.display = 'block';
+  });
+})();
+</script>
 </body>
 </html>
