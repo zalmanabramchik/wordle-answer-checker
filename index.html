@@ -68,6 +68,7 @@
     The archive is updated every morning and always stops at the answer from
     two days ago, so it can never spoil a game still being played in any time
     zone. A word marked safe today could still become an answer in the future.
+    <div id="visitorLine" style="margin-top:14px; font-size:15px; color:var(--ink); display:none;">👀 <strong id="visitorCount"></strong> people have visited this checker</div>
   </footer>
 </main>
 
@@ -170,13 +171,20 @@
 })();
 </script>
 <script>
-// New-guest counter: fires once per browser, the first time someone opens the page.
-try {
-  if (!localStorage.getItem('wac-counted')) {
-    localStorage.setItem('wac-counted', '1');
-    fetch('https://abacus.jasoncameron.dev/hit/zalman-wordle-checker/unique-visitors', { mode: 'no-cors', keepalive: true }).catch(function () {});
-  }
-} catch (e) {}
+// New-guest counter: counts each browser once, on its first visit, and shows the total on the page.
+(function () {
+  var first = false;
+  try {
+    if (!localStorage.getItem('wac-counted')) { localStorage.setItem('wac-counted', '1'); first = true; }
+  } catch (e) {}
+  var url = 'https://abacus.jasoncameron.dev/' + (first ? 'hit' : 'get') + '/zalman-wordle-checker/unique-visitors';
+  fetch(url).then(function (r) { return r.json(); }).then(function (d) {
+    if (d && typeof d.value === 'number') {
+      document.getElementById('visitorCount').textContent = d.value.toLocaleString('en-US');
+      document.getElementById('visitorLine').style.display = 'block';
+    }
+  }).catch(function () {});
+})();
 </script>
 </body>
 </html>
