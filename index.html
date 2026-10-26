@@ -70,7 +70,17 @@
     <p style="color:var(--dim); font-size:14px; margin:0 0 12px;">Stopped by? Sign the wall.</p>
     <ul class="recent" id="guestbook"></ul>
     <p id="gbEmpty" style="color:var(--dim); font-size:14px; display:none;">No signatures yet. Be the first.</p>
-    <a class="signbtn" href="https://docs.google.com/forms/d/e/1FAIpQLSe546esWDioDEIMKDxnD6F1ya_PYl71MLVX9mKjsj-kq9AMOw/viewform" target="_blank" rel="noopener">✍️ Sign the guestbook</a>
+    <form id="gbForm" action="https://docs.google.com/forms/d/e/1FAIpQLSe546esWDioDEIMKDxnD6F1ya_PYl71MLVX9mKjsj-kq9AMOw/formResponse" method="POST" target="gbHidden" style="margin-top:14px;">
+      <div class="row" style="margin-bottom:8px;">
+        <input type="text" id="gbName" name="entry.1628447803" placeholder="Your name" maxlength="60" required autocomplete="name" style="text-transform:none; letter-spacing:normal; font-size:16px;">
+      </div>
+      <div class="row">
+        <input type="text" id="gbNote" name="entry.1156428493" placeholder="Say hello (optional)" maxlength="120" style="text-transform:none; letter-spacing:normal; font-size:16px;">
+        <button type="submit">✍️ Sign</button>
+      </div>
+    </form>
+    <iframe name="gbHidden" title="guestbook" style="display:none;"></iframe>
+    <p id="gbThanks" style="display:none; color:#9fd49a; font-size:15px; margin-top:12px;">You're on the wall. Thanks for signing!</p>
   </section>
 
   <footer>
@@ -199,7 +209,7 @@
         async src="//gc.zgo.at/count.js"></script>
 <script>
 // Guestbook wall: reads signatures from the guestbook spreadsheet and lists the newest first.
-(function () {
+function loadWall() {
   var url = 'https://docs.google.com/spreadsheets/d/1ChQni3LTc3yJuNEKWKwAZXXAAhboehFrgRquORzz_p4/gviz/tq?tqx=out:json&sheet=' + encodeURIComponent('Form Responses 1');
   fetch(url).then(function (r) { return r.text(); }).then(function (t) {
     var json = JSON.parse(t.substring(t.indexOf('{'), t.lastIndexOf('}') + 1));
@@ -214,6 +224,7 @@
     });
     out.reverse();
     var ul = document.getElementById('guestbook');
+    ul.innerHTML = '';
     out.slice(0, 30).forEach(function (e) {
       var li = document.createElement('li');
       var left = document.createElement('span');
@@ -230,11 +241,22 @@
       }
       ul.appendChild(li);
     });
-    if (!out.length) document.getElementById('gbEmpty').style.display = 'block';
+    document.getElementById('gbEmpty').style.display = out.length ? 'none' : 'block';
   }).catch(function () {
     document.getElementById('gbEmpty').style.display = 'block';
   });
-})();
+}
+loadWall();
+// Signing happens right on this page: the form posts in the background, then the wall refreshes.
+document.getElementById('gbForm').addEventListener('submit', function () {
+  var form = this;
+  setTimeout(function () {
+    document.getElementById('gbThanks').style.display = 'block';
+    form.reset();
+    loadWall();
+  }, 1500);
+  setTimeout(loadWall, 5000);
+});
 </script>
 </body>
 </html>
