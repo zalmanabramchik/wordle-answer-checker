@@ -32,6 +32,9 @@
   footer { color:var(--dim); font-size:13px; line-height:1.55; text-align:center; margin-top:8px; }
   .err { color:#e08a8a; font-size:14px; margin-top:10px; display:none; }
   .signbtn { display:inline-block; margin-top:14px; background:var(--green); color:#fff; padding:11px 18px; border-radius:8px; font-size:15px; font-weight:600; text-decoration:none; }
+  .recent.compact { display:grid; grid-template-columns:1fr 1fr; column-gap:18px; }
+  .recent.compact li { padding:5px 0; font-size:13.5px; }
+  .recent.compact .d { font-size:12px; }
 </style>
 </head>
 <body>
@@ -62,11 +65,6 @@
   </section>
 
   <section class="card">
-    <h2>Most recent answers in the archive</h2>
-    <ul class="recent" id="recent"></ul>
-  </section>
-
-  <section class="card">
     <h2>The guestbook wall</h2>
     <p style="color:var(--dim); font-size:14px; margin:0 0 12px;">Stopped by? Sign the wall.</p>
     <ul class="recent" id="guestbook"></ul>
@@ -82,6 +80,11 @@
     </form>
     <iframe name="gbHidden" title="guestbook" style="display:none;"></iframe>
     <p id="gbThanks" style="display:none; color:#9fd49a; font-size:15px; margin-top:12px;">You're on the wall. Thanks for signing!</p>
+  </section>
+
+  <section class="card">
+    <h2>Most recent answers</h2>
+    <ul class="recent compact" id="recent"></ul>
   </section>
 
   <footer>
@@ -157,7 +160,7 @@
 
   function renderRecent() {
     var ul = document.getElementById("recent");
-    var last = answers.slice(-10).reverse();
+    var last = answers.slice(-6).reverse();
     ul.innerHTML = "";
     last.forEach(function (a) {
       var li = document.createElement("li");
