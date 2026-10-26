@@ -3,8 +3,51 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wordle Answer Checker</title>
-<meta name="description" content="Check whether a word has already been a Wordle answer, or look up the answer for any date. Updated every morning, always stopping two days back so it can never spoil a game in any time zone.">
+<title>Wordle Answer Checker: Was It Already a Wordle Answer?</title>
+<meta name="description" content="Type any word and instantly see if it was already a Wordle answer, and when. Or look up any date's answer. Free, updated daily, and spoiler-safe: it never shows today's answer.">
+<link rel="canonical" href="https://zalmanabramchik.github.io/wordle-answer-checker/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#121213">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Wordle Answer Checker">
+<meta property="og:url" content="https://zalmanabramchik.github.io/wordle-answer-checker/">
+<meta property="og:title" content="Wordle Answer Checker: Was It Already a Wordle Answer?">
+<meta property="og:description" content="Never burn a guess on a word Wordle already used. Check any word against every past Wordle answer, or look up any date. Free and spoiler-safe.">
+<meta property="og:image" content="https://zalmanabramchik.github.io/wordle-answer-checker/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Wordle Answer Checker: Was It Already a Wordle Answer?">
+<meta name="twitter:description" content="Never burn a guess on a word Wordle already used. Free, updated daily, spoiler-safe.">
+<meta name="twitter:image" content="https://zalmanabramchik.github.io/wordle-answer-checker/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Wordle Answer Checker",
+      "url": "https://zalmanabramchik.github.io/wordle-answer-checker/",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "description": "Check whether any word has already been a Wordle answer, and look up the Wordle answer for any date. The archive covers every Wordle answer since June 19, 2021 and is updated every morning, always stopping two days back so it can never spoil a game."
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How do I check if a word was already a Wordle answer?", "acceptedAnswer": { "@type": "Answer", "text": "Type the word into the checker at the top of this page. It searches the complete archive of past Wordle answers and tells you instantly whether the word was already an answer, and if so, on what date and in which puzzle. If the word is a real word but has never been an answer, it is still a possible future answer." } },
+        { "@type": "Question", "name": "Can a Wordle answer repeat?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Repeats are rare but they happen. So far, 28 words have been the Wordle answer twice, including CIGAR and STINK. A word that was an answer before is much less likely to come up again, but it is not impossible." } },
+        { "@type": "Question", "name": "Will this spoil today's Wordle?", "acceptedAnswer": { "@type": "Answer", "text": "No. The archive always stops at the answer from two days ago, so it can never reveal today's answer or yesterday's, in any time zone. It only ever shows answers from two days ago and earlier." } },
+        { "@type": "Question", "name": "How complete is the list of past Wordle answers?", "acceptedAnswer": { "@type": "Answer", "text": "Complete. The archive contains every Wordle answer since the game launched on June 19, 2021 (puzzle #0, CIGAR), including the short period in early 2022 when some days had two different answers. A new answer is added every morning, always two days behind." } }
+      ]
+    }
+  ]
+}
+</script>
 <style>
   :root { --green:#538d4e; --gold:#c9b458; --dark:#121213; --panel:#1d1d20; --line:#3a3a3c; --text:#e8e8e8; --dim:#9a9aa0; }
   * { box-sizing: border-box; }
@@ -87,6 +130,18 @@
   <section class="card">
     <h2>Most recent answers</h2>
     <ul class="recent compact" id="recent"></ul>
+  </section>
+
+  <section class="card">
+    <h2>About this Wordle answer checker</h2>
+    <p style="font-size:14.5px; line-height:1.65; color:var(--text); margin:0 0 10px;">Wordle answers almost never repeat, so guessing a word that was already an answer is usually a wasted turn. This checker keeps the complete list of past Wordle answers, every single one since the game launched on June 19, 2021, and lets you search it two ways: type any five-letter word to see if Wordle has already used it, or pick any date to see that day's answer.</p>
+    <p style="font-size:14.5px; line-height:1.65; color:var(--text); margin:0 0 10px;">The archive updates every morning, and it always stops at the answer from two days ago. That is deliberate: the checker can never spoil today's game, or yesterday's, for a player in any time zone.</p>
+    <h3 style="font-size:15px; margin:16px 0 6px;">Can a Wordle answer repeat?</h3>
+    <p style="font-size:14.5px; line-height:1.65; color:var(--text); margin:0 0 10px;">Yes, rarely. So far, 28 words have been the answer twice, including CIGAR and STINK. A past answer is much less likely to come up again, but not impossible, so treat a burned word as a long shot rather than a sure thing either way.</p>
+    <h3 style="font-size:15px; margin:16px 0 6px;">Common questions</h3>
+    <p style="font-size:14.5px; line-height:1.65; color:var(--text); margin:0 0 8px;"><strong>How do I check if a word was already a Wordle answer?</strong><br>Type it into the checker at the top of this page. You will see instantly whether it was an answer, and if so, the date and puzzle number. If it is a real word that has never been an answer, it could still be one in the future.</p>
+    <p style="font-size:14.5px; line-height:1.65; color:var(--text); margin:0 0 8px;"><strong>Will this spoil today's Wordle?</strong><br>No. The newest answer here is always from two days ago.</p>
+    <p style="font-size:14.5px; line-height:1.65; color:var(--text); margin:0;"><strong>Is it free?</strong><br>Yes, completely. Check as many words and dates as you like, and sign the guestbook wall while you are here.</p>
   </section>
 
   <footer>
