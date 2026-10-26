@@ -169,5 +169,14 @@
   });
 })();
 </script>
+<script>
+// New-guest counter: fires once per browser, the first time someone opens the page.
+try {
+  if (!localStorage.getItem('wac-counted')) {
+    localStorage.setItem('wac-counted', '1');
+    fetch('https://abacus.jasoncameron.dev/hit/zalman-wordle-checker/unique-visitors', { mode: 'no-cors', keepalive: true }).catch(function () {});
+  }
+} catch (e) {}
+</script>
 </body>
 </html>
