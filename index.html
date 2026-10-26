@@ -161,7 +161,7 @@
 
   function renderRecent() {
     var ul = document.getElementById("recent");
-    var last = answers.slice(-6).reverse();
+    var last = answers.slice(-14).reverse();
     ul.innerHTML = "";
     last.forEach(function (a) {
       var li = document.createElement("li");
