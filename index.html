@@ -38,6 +38,7 @@
 <main>
   <h1>Wordle Answer Checker</h1>
   <p class="sub">Never burn a guess on a word Wordle already used.</p>
+  <p style="text-align:center; color:var(--gold); font-size:13.5px; line-height:1.55; max-width:480px; margin:0 auto 24px;">One caveat: a past answer is much less likely to come up again, but not impossible. So far, <span id="dupeCount">28</span> words have been the answer twice.</p>
 
   <section class="card">
     <h2>Check a word</h2>
@@ -180,6 +181,8 @@
       (byDate[a.date] = byDate[a.date] || []).push(a);
       if (!newest || a.date > newest) newest = a.date;
     });
+    var dupes = Object.keys(byWord).filter(function (w) { return byWord[w].length > 1; }).length;
+    document.getElementById("dupeCount").textContent = dupes;
     valid = new Set(res[1].split(/\r?\n/).map(function (s) { return s.trim().toUpperCase(); }).filter(Boolean));
     var dateInp = document.getElementById("date");
     dateInp.max = newest; dateInp.value = newest;
